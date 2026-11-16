@@ -1,0 +1,4 @@
+# add matplotlib for the apps (already applied if you take the updated pyproject.toml):
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+apps = ["matplotlib>=3.5"]
