@@ -213,4 +213,3 @@ python plot_ellipse.py [dataset]             # зведений рисунок �
 
 У `runs/<scenario>/`: `results.csv` (усі величини для кожної одиниці, ГПа), `criteria_summary.txt`,
 `comparison_summary.txt/.csv`, `sweep.png/.eps`, `comparison.png/.eps` і `<scenario>.hdf5`
-(усі сирі результати MatViz3D; не зберігаються в git).
