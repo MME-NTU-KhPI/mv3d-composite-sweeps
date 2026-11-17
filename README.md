@@ -101,7 +101,7 @@ my_sweep = _register(SweepConfig(
 | `mode` | `stiffness`, `dataset` | Homogenization mode |
 | `solvers` | `["fft"]`, `["ansys"]`, both | Solvers |
 | `realizations` | integer | Random seeds per point (≥ 2 for a scatter band) |
-| `ansys_np` | integer | ANSYS processes (keep 1 on ~8 GB RAM) |
+| `ansys_np` | integer | ANSYS processes |
 | `rundir` | path | Output folder |
 
 ---
