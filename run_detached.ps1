@@ -7,8 +7,10 @@
 # Re-running resumes: finished units are skipped.
 param([Parameter(Mandatory = $true)][string]$Scenario, [Parameter(ValueFromRemainingArguments = $true)]$Rest)
 
-$env:MATVIZ3D_EXE      = "D:\MatViz3D-qml-main\build\Desktop_Qt_6_9_0_MinGW_64_bit-Release\release\MatViz3D.exe"
-$env:MATVIZ3D_DLL_DIRS = "C:\Qt\Tools\mingw1310_64\bin;C:\Qt\6.9.0\mingw_64\bin;C:\Program Files\HDF_Group\HDF5\1.14.6\bin"
+# MatViz3D location: set MATVIZ3D_EXE / MATVIZ3D_DLL_DIRS in your environment, or
+# replace the placeholders below with your paths (DLL dirs: Qt, MinGW, HDF5; ';'-separated).
+if (-not $env:MATVIZ3D_EXE)      { $env:MATVIZ3D_EXE      = "<path-to>\MatViz3D.exe" }
+if (-not $env:MATVIZ3D_DLL_DIRS) { $env:MATVIZ3D_DLL_DIRS = "<Qt>\Tools\mingw<ver>_64\bin;<Qt>\<ver>\mingw_64\bin;<HDF5>\bin" }
 $env:QT_FORCE_STDERR_LOGGING = "1"   # MatViz3D --nogui otherwise sends its log to the debugger only
 $env:PYTHONUNBUFFERED = "1"
 
