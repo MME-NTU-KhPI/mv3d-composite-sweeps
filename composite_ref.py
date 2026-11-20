@@ -42,10 +42,17 @@ _VOIGT = [(0, 0), (1, 1), (2, 2), (1, 2), (0, 2), (0, 1)]
 _PIPE_OF_STD = [0, 1, 2, 4, 5, 3]
 
 
-def pipeline_to_voigt(Cp: np.ndarray) -> np.ndarray:
-    """MatViz3D pipeline-basis C -> standard Voigt C (engineering shear, order 11,22,33,23,13,12)."""
+def pipeline_to_voigt(Cp: np.ndarray, engineering_shear: bool = False) -> np.ndarray:
+    """MatViz3D pipeline-basis C -> standard Voigt C (engineering shear, order 11,22,33,23,13,12).
+
+    Older MatViz3D builds wrote C_matrix columns for a unit *tensor* shear strain
+    (no attribute), so its shear columns are twice the engineering ones and are
+    halved here. Newer builds tag C_matrix with shear_basis="engineering" and
+    already use unit engineering shear; pass engineering_shear=True for those.
+    """
     C = Cp[np.ix_(_PIPE_OF_STD, _PIPE_OF_STD)].astype(float).copy()
-    C[:, 3:] *= 0.5        # unit tensor shear strain = engineering shear strain of 2
+    if not engineering_shear:
+        C[:, 3:] *= 0.5    # unit tensor shear strain = engineering shear strain of 2
     return C
 
 

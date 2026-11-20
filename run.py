@@ -158,12 +158,22 @@ def composite_gen(cfg: SweepConfig, value: float, seed: int, solver: str = "fft"
     )
 
 
+def _c_shear_basis(r: "MatViz3DResult", g: int) -> str:
+    """shear_basis attribute of C_matrix ("engineering" in newer MatViz3D builds, "" if absent)."""
+    with h5py.File(r.file_path, "r") as f:
+        ds = f[r._group_name(g)].get("C_matrix")
+        if ds is None:
+            return ""
+        v = ds.attrs.get("shear_basis", "")
+        return (v.decode() if isinstance(v, bytes) else str(v)).strip().lower()
+
+
 def composite_row(cfg: SweepConfig, r: "MatViz3DResult", gen: GenParams) -> dict[str, Any] | None:
     """Effective constants + acceptance criteria for one result."""
     Cp = r.stiffness(0)
     if Cp is None:
         return None
-    C = composite_ref.pipeline_to_voigt(Cp) / 1e9  # GPa, standard Voigt
+    C = composite_ref.pipeline_to_voigt(Cp, engineering_shear=_c_shear_basis(r, 0) == "engineering") / 1e9  # GPa, standard Voigt
     eng = composite_ref.engineering_constants(C)
 
     # Matrix voxels carry grain id 1 (Composite::MatrixId); every fiber has its own id.
